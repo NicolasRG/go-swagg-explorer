@@ -1,20 +1,38 @@
-[
-  {
-    "summary": "I am the home endpoint",
-    "method": "",
-    "path": "",
-    "responses": null
-  },
-  {
-    "summary": "I am the hello endpoint",
-    "method": "",
-    "path": "",
-    "responses": null
-  },
-  {
-    "summary": "I am the hello endpoint",
-    "method": "",
-    "path": "",
-    "responses": null
-  }
-]
+{
+"openapi": "3.0.0",
+"info": {
+"title": "Demo App",
+"description": "This a demo app",
+"version": "-0.0.1",
+"termsOfService": "Please dont sue",
+"contact": {
+"name": "John S Tea",
+"url": "TEST.com",
+"email": "john@TEST.com"
+}
+},
+"paths": {
+"/": {
+"summary": "I am the home endpoint",
+"get": {
+"summary": "The Home Endpoint",
+"responses": null
+}
+},
+"/health": {
+"summary": "I am the hello endpoint",
+"post": {
+"summary": "The Hello Endpoint",
+"responses": null
+}
+},
+"/hello": {
+"summary": "I am the hello endpoint",
+"put": {
+"summary": "The Hello Endpoint",
+"responses": null
+}
+}
+},
+"components": {}
+}

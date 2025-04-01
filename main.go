@@ -16,19 +16,39 @@ func main() {
 
 	config := &libs.SwaggerServerConfig{
 		Server: http.DefaultServeMux,
+		Info: libs.OpenAPIInfo{
+			Title:          "Demo App",
+			Description:    "This a demo app",
+			Version:        "-0.0.1",
+			TermsOfService: "Please dont sue",
+			Contact: &libs.OpenAPIContact{
+				Name:  "John S Tea",
+				URL:   "TEST.com",
+				Email: "john@TEST.com",
+			},
+		},
 	}
 
 	libs.AddToSwaggerAndRegister(
-		libs.RouteDocsConfig{
+		libs.PathItem{
 			Summary: "I am the home endpoint",
+			Get: &libs.Operation{
+				Summary: "The Home Endpoint",
+			},
 		}, config, "/", homeHandler)
 
-	libs.AddToSwaggerAndRegister(libs.RouteDocsConfig{
+	libs.AddToSwaggerAndRegister(libs.PathItem{
 		Summary: "I am the hello endpoint",
+		Put: &libs.Operation{
+			Summary: "The Hello Endpoint",
+		},
 	}, config, "/hello", helloHandler)
 
-	libs.AddToSwaggerAndRegister(libs.RouteDocsConfig{
+	libs.AddToSwaggerAndRegister(libs.PathItem{
 		Summary: "I am the hello endpoint",
+		Post: &libs.Operation{
+			Summary: "The Hello Endpoint",
+		},
 	}, config, "/health", healthHandler)
 
 	// Start the server
