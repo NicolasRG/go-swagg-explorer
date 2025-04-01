@@ -1,0 +1,20 @@
+[
+  {
+    "summary": "I am the home endpoint",
+    "method": "",
+    "path": "",
+    "responses": null
+  },
+  {
+    "summary": "I am the hello endpoint",
+    "method": "",
+    "path": "",
+    "responses": null
+  },
+  {
+    "summary": "I am the hello endpoint",
+    "method": "",
+    "path": "",
+    "responses": null
+  }
+]
