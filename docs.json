@@ -16,7 +16,11 @@
 "summary": "I am the home endpoint",
 "get": {
 "summary": "The Home Endpoint",
-"responses": null
+"responses": {
+"200": {
+"message": ""
+}
+}
 }
 },
 "/health": {

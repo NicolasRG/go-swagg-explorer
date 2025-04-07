@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/nicolasrg/go-swagg-explorer/example"
 	"github.com/nicolasrg/go-swagg-explorer/libs"
 )
 
@@ -29,11 +30,17 @@ func main() {
 		},
 	}
 
+	respRef := &example.Response{}
+	var mapish = make(map[string]interface{})
+
+	mapish["200"] = respRef
 	libs.AddToSwaggerAndRegister(
 		libs.PathItem{
 			Summary: "I am the home endpoint",
 			Get: &libs.Operation{
-				Summary: "The Home Endpoint",
+				Summary:     "The Home Endpoint",
+				Description: "I AM DESCRIPTION",
+				Responses:   mapish,
 			},
 		}, config, "/", homeHandler)
 
