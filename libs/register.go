@@ -47,7 +47,8 @@ func GenerateDocs(config *SwaggerServerConfig) {
 	openApiConfig.Info = config.Info
 	openApiConfig.Paths = config.routeDocs
 
-	generateMarshalRefs(config)
+	schemas := generateMarshalRefs(config.refs)
+	openApiConfig.Components.Schemas = schemas
 
 	jsonData, _ := json.MarshalIndent(openApiConfig, "", "")
 
@@ -69,27 +70,33 @@ func parseResponse(method string, op *Operation, config *SwaggerServerConfig) {
 
 	for statusCode, responseBody := range res {
 		fmt.Print(statusCode, responseBody)
-		//get the type of the responseBody
-		typeOf := reflect.TypeOf(responseBody).Name()
+		//FIXME: remove the * of pointers as this is out of spec
+		actualType := reflect.TypeOf(responseBody).String()
 		//check that the type key is not in the map
-		_, ok := config.refs[typeOf]
+		_, ok := config.refs[actualType]
+
 		if ok {
 			continue
 		} else {
-			fmt.Printf("adding type : %s to refs map \n", typeOf)
-			config.refs[typeOf] = responseBody
+			if config.refs == nil {
+				config.refs = make(map[string]interface{})
+			}
+			fmt.Printf("adding type : %s to refs map \n", actualType)
+			config.refs[actualType] = responseBody
 		}
 	}
 }
 
-// todo return a object that can be attached to the config, so does the it need this arguement????
-func generateMarshalRefs(config *SwaggerServerConfig) {
+// TODO: return a object that can be attached to the config, so does the it need this arguement????
+// returns a map of parameters based on types given
+func generateMarshalRefs(refs map[string]interface{}) map[string]*Schema {
+	schemaMap := make(map[string]*Schema)
 	//loop through all the refs and create schemas out of all them
-	for typeName, typeRef := range config.refs {
+	for typeName, typeRef := range refs {
 		fmt.Printf("generating type docs: %s to refs map \n", typeName)
 		//tarverse through each field and generate the docs for each type
 		if isBaseType(reflect.TypeOf(typeRef)) { //FIXME: this will not work for ptr types FYI
-			schema := Schema{}
+			schema := &Schema{}
 			// deserialize as normal
 
 			//determine the type
@@ -98,19 +105,49 @@ func generateMarshalRefs(config *SwaggerServerConfig) {
 			//TODO: Idea use tags to add descriptions or things of nature
 
 			//attacht to refs at the end
+			schemaMap[typeName] = schema
 
 		} else {
-			// go through each child elem and parse out
-			keys := reflect.VisibleFields(reflect.TypeOf(typeRef))
+			schema := &Schema{}
+			schema.Type = "object"
 
-			for field := range keys {
-				//fill out the normal fields or let the down stream call handle this?? i think let the down stream call handle this
+			interfaceMap := structToMap(typeRef)
 
-				//todo: split this out into a recursive process
+			// this definitly breaks
+			schema.Properties = generateMarshalRefs(interfaceMap)
 
-			}
+			schemaMap[typeName] = schema
 		}
 	}
+	return schemaMap
+}
+
+func structToMap(obj interface{}) map[string]interface{} {
+	v := reflect.ValueOf(obj)
+	if v.Kind() == reflect.Ptr {
+		v = v.Elem()
+	}
+
+	if v.Kind() != reflect.Struct {
+		panic("not a struct")
+	}
+
+	result := make(map[string]interface{})
+	t := v.Type()
+
+	for i := 0; i < v.NumField(); i++ {
+		field := t.Field(i)
+		value := v.Field(i)
+
+		// Handle nested structs recursively
+		if value.Kind() == reflect.Struct && field.Anonymous == false {
+			result[field.Name] = structToMap(value.Interface())
+		} else {
+			result[field.Name] = value.Interface()
+		}
+	}
+
+	return result
 }
 
 func isBaseType(t reflect.Type) bool {

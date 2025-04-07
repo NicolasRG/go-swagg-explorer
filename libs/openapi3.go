@@ -65,7 +65,7 @@ type OpenAPIServer struct {
 
 // TODO: define how schemas should work
 type OpenAPIComponents struct {
-	Schemas         map[string]interface{} `json:"schemas,omitempty" yaml:"schemas,omitempty"`
+	Schemas         map[string]*Schema     `json:"schemas,omitempty" yaml:"schemas,omitempty"`
 	Responses       map[string]interface{} `json:"responses,omitempty" yaml:"responses,omitempty"` //TOD
 	Parameters      map[string]Parameter   `json:"parameters,omitempty" yaml:"parameters,omitempty"`
 	RequestBodies   map[string]interface{} `json:"requestBodies,omitempty" yaml:"requestBodies,omitempty"`

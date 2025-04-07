@@ -16,6 +16,7 @@
 "summary": "I am the home endpoint",
 "get": {
 "summary": "The Home Endpoint",
+"description": "I AM DESCRIPTION",
 "responses": {
 "200": {
 "message": ""
@@ -38,5 +39,18 @@
 }
 }
 },
-"components": {}
+"components": {
+"schemas": {
+"*example.Response": {
+"type": "object",
+"properties": {
+"Message": {
+"type": "string",
+"$ref": ""
+}
+},
+"$ref": ""
+}
+}
+}
 }
