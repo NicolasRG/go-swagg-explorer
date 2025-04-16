@@ -21,7 +21,7 @@ func main() {
 			Title:          "Demo App",
 			Description:    "This a demo app",
 			Version:        "-0.0.1",
-			TermsOfService: "Please dont sue",
+			TermsOfService: "https://swagger.io/terms/",
 			Contact: &libs.OpenAPIContact{
 				Name:  "John S Tea",
 				URL:   "TEST.com",
@@ -30,10 +30,12 @@ func main() {
 		},
 	}
 
-	respRef := &example.Response{}
+	respRef := &example.Response{Message: "Successfully api'd"}
+	errResp := &example.ErrorResponse{Message: "The big failure 😡", Code: 400}
 	var mapish = make(map[string]interface{})
 
 	mapish["200"] = respRef
+	mapish["400"] = errResp
 	libs.AddToSwaggerAndRegister(
 		libs.PathItem{
 			Summary: "I am the home endpoint",
@@ -43,20 +45,6 @@ func main() {
 				Responses:   mapish,
 			},
 		}, config, "/", homeHandler)
-
-	libs.AddToSwaggerAndRegister(libs.PathItem{
-		Summary: "I am the hello endpoint",
-		Put: &libs.Operation{
-			Summary: "The Hello Endpoint",
-		},
-	}, config, "/hello", helloHandler)
-
-	libs.AddToSwaggerAndRegister(libs.PathItem{
-		Summary: "I am the hello endpoint",
-		Post: &libs.Operation{
-			Summary: "The Hello Endpoint",
-		},
-	}, config, "/health", healthHandler)
 
 	// Start the server
 	fmt.Println("Server listening on port 8080...")

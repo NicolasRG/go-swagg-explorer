@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -50,7 +51,7 @@ func GenerateDocs(config *SwaggerServerConfig) {
 	schemas := generateMarshalRefs(config.refs)
 	openApiConfig.Components.Schemas = schemas
 
-	jsonData, _ := json.MarshalIndent(openApiConfig, "", "")
+	jsonData, _ := json.MarshalIndent(openApiConfig, "", "\t")
 
 	err := os.WriteFile("docs.json", jsonData, 0644)
 	if err != nil {
@@ -67,24 +68,28 @@ func GenerateDocs(config *SwaggerServerConfig) {
 func parseResponse(method string, op *Operation, config *SwaggerServerConfig) {
 	//get the responsebodies out of map
 	res := op.Responses
-
 	for statusCode, responseBody := range res {
 		fmt.Print(statusCode, responseBody)
-		//FIXME: remove the * of pointers as this is out of spec
-		actualType := reflect.TypeOf(responseBody).String()
-		//check that the type key is not in the map
-		_, ok := config.refs[actualType]
 
-		if ok {
-			continue
-		} else {
+		actualType := reflect.TypeOf(responseBody).String()
+		cleanedUpActualType := strings.ReplaceAll(actualType, "*", "")
+		//check that the type key is not in the map
+		_, ok := config.refs[cleanedUpActualType]
+		if !ok {
 			if config.refs == nil {
 				config.refs = make(map[string]interface{})
 			}
-			fmt.Printf("adding type : %s to refs map \n", actualType)
-			config.refs[actualType] = responseBody
+			fmt.Printf("adding type : %s to refs map \n", cleanedUpActualType)
+
+			config.refs[cleanedUpActualType] = responseBody
+		}
+
+		//create block and ref to component def
+		op.Responses[statusCode] = Schema{
+			Ref: "#/components/schemas/" + cleanedUpActualType, //TODO: update this to use response and requst body sections
 		}
 	}
+
 }
 
 // TODO: return a object that can be attached to the config, so does the it need this arguement????
@@ -104,16 +109,20 @@ func generateMarshalRefs(refs map[string]interface{}) map[string]*Schema {
 
 			//TODO: Idea use tags to add descriptions or things of nature
 
+			//attach exmaple value if it exist
+			schema.Example = typeRef
 			//attacht to refs at the end
 			schemaMap[typeName] = schema
 
 		} else {
-			schema := &Schema{}
+			schema := &Schema{
+				Description: typeName, //TODO: look into making this a tag field
+			}
 			schema.Type = "object"
 
 			interfaceMap := structToMap(typeRef)
 
-			// this definitly breaks
+			// TODO: figure out why i wrote "this definitly breaks" here
 			schema.Properties = generateMarshalRefs(interfaceMap)
 
 			schemaMap[typeName] = schema

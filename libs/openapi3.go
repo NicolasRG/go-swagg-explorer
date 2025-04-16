@@ -21,7 +21,7 @@ type OpenAPIInfo struct {
 	Title          string          `json:"title" yaml:"title"`
 	Description    string          `json:"description,omitempty" yaml:"description,omitempty"`
 	Version        string          `json:"version" yaml:"version"`
-	TermsOfService string          `json:"termsOfService,omitempty" yaml:"termsOfService,omitempty"`
+	TermsOfService string          `json:"termsOfService,omitempty" yaml:"termsOfService,omitempty"` //For this to be in spec it should be a url, let user handle it at the moment is the direction
 	Contact        *OpenAPIContact `json:"contact,omitempty" yaml:"contact,omitempty"`
 	License        *OpenAPILicense `json:"license,omitempty" yaml:"license,omitempty"`
 }

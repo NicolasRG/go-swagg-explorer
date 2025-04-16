@@ -46,7 +46,7 @@ type Schema struct {
 	Examples             []interface{}      `json:"examples,omitempty"`             // Multiple examples
 	ExternalDocs         *ExternalDocs      `json:"externalDocs,omitempty"`         // Link to external docs
 	XML                  *XML               `json:"xml,omitempty"`                  // XML-specific metadata
-	Ref                  string             `json:"$ref"`
+	Ref                  string             `json:"$ref,omitempty"`
 }
 
 // Discriminator is used for polymorphism in OpenAPI 3.0.
@@ -58,7 +58,7 @@ type Discriminator struct {
 // ExternalDocs represents external documentation.
 type ExternalDocs struct {
 	Description string `json:"description,omitempty"`
-	URL         string `json:"url"`
+	URL         string `json:"url,omitempty"`
 }
 
 // XML defines XML-specific metadata.

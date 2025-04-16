@@ -1,56 +1,59 @@
 {
-"openapi": "3.0.0",
-"info": {
-"title": "Demo App",
-"description": "This a demo app",
-"version": "-0.0.1",
-"termsOfService": "Please dont sue",
-"contact": {
-"name": "John S Tea",
-"url": "TEST.com",
-"email": "john@TEST.com"
-}
-},
-"paths": {
-"/": {
-"summary": "I am the home endpoint",
-"get": {
-"summary": "The Home Endpoint",
-"description": "I AM DESCRIPTION",
-"responses": {
-"200": {
-"message": ""
-}
-}
-}
-},
-"/health": {
-"summary": "I am the hello endpoint",
-"post": {
-"summary": "The Hello Endpoint",
-"responses": null
-}
-},
-"/hello": {
-"summary": "I am the hello endpoint",
-"put": {
-"summary": "The Hello Endpoint",
-"responses": null
-}
-}
-},
-"components": {
-"schemas": {
-"*example.Response": {
-"type": "object",
-"properties": {
-"Message": {
-"type": "string",
-"$ref": ""
-}
-},
-"$ref": ""
-}
-}
-}
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Demo App",
+		"description": "This a demo app",
+		"version": "-0.0.1",
+		"termsOfService": "https://swagger.io/terms/",
+		"contact": {
+			"name": "John S Tea",
+			"url": "TEST.com",
+			"email": "john@TEST.com"
+		}
+	},
+	"paths": {
+		"/": {
+			"summary": "I am the home endpoint",
+			"get": {
+				"summary": "The Home Endpoint",
+				"description": "I AM DESCRIPTION",
+				"responses": {
+					"200": {
+						"$ref": "#/components/schemas/example.Response"
+					},
+					"400": {
+						"$ref": "#/components/schemas/example.ErrorResponse"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"example.ErrorResponse": {
+				"type": "object",
+				"description": "example.ErrorResponse",
+				"properties": {
+					"Code": {
+						"type": "number",
+						"example": 400
+					},
+					"Message": {
+						"type": "string",
+						"example": "The big failure 😡"
+					}
+				}
+			},
+			"example.Response": {
+				"type": "object",
+				"description": "example.Response",
+				"properties": {
+					"Message": {
+						"type": "string",
+						"example": "Successfully api'd"
+					}
+				}
+			}
+		}
+	}
 }
