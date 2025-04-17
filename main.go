@@ -103,6 +103,8 @@ func main() {
 	fmt.Println("Server listening on port 8080...")
 	libs.GenerateDocs(config)
 
+	//TODO: add swagger endpoint here
+
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
