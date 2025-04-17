@@ -39,6 +39,110 @@
 						}
 					}
 				}
+			},
+			"post": {
+				"summary": "The POST Endpoint",
+				"description": "POST DESCRIPTION",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.Response"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"summary": "The PUT Endpoint",
+				"description": "PUT DESCRIPTION",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.Response"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"summary": "The DELETE Endpoint",
+				"description": "DELETE DESCRIPTION",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.Response"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.ErrorResponse"
+								}
+							}
+						}
+					}
+				}
+			},
+			"patch": {
+				"summary": "The PATCH Endpoint",
+				"description": "PATCH DESCRIPTION",
+				"responses": {
+					"200": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.Response"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.ErrorResponse"
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	},

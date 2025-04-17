@@ -30,19 +30,72 @@ func main() {
 		},
 	}
 
+	// GET ENDPOINT EXAMPLE
 	respRef := &example.Response{Message: "Successfully api'd"}
 	errResp := &example.ErrorResponse{Message: "The big failure 😡", Code: 400}
-	var mapish = make(map[string]interface{})
+	var getResponses = make(map[string]interface{})
 
-	mapish["200"] = respRef
-	mapish["400"] = errResp
+	getResponses["200"] = respRef
+	getResponses["400"] = errResp
+	// POST ENDPOINT EXAMPLE
+	postRespRef := &example.Response{Message: "Successfully api'd"}
+	postErrResp := &example.ErrorResponse{Message: "The big failure 😡", Code: 400}
+	var postResponses = make(map[string]interface{})
+
+	postResponses["200"] = postRespRef
+	postResponses["400"] = postErrResp
+
+	// PUT ENDPOINT EXAMPLE
+	putRespRef := &example.Response{Message: "Successfully api'd"}
+	putErrResp := &example.ErrorResponse{Message: "The big failure 😡", Code: 400}
+	var putResponses = make(map[string]interface{})
+
+	putResponses["200"] = putRespRef
+	putResponses["400"] = putErrResp
+
+	// PATCH ENDPOINT EXAMPLE
+	patchRespRef := &example.Response{Message: "Successfully api'd"}
+	patchErrResp := &example.ErrorResponse{Message: "The big failure 😡", Code: 400}
+	var patchResponses = make(map[string]interface{})
+
+	patchResponses["200"] = patchRespRef
+	patchResponses["400"] = patchErrResp
+
+	// DELETE ENDPOINT EXAMPLE
+	deleteRespRef := &example.Response{Message: "Successfully api'd"}
+	deleteErrResp := &example.ErrorResponse{Message: "The big failure 😡", Code: 400}
+	var deleteResponses = make(map[string]interface{})
+
+	deleteResponses["200"] = deleteRespRef
+	deleteResponses["400"] = deleteErrResp
+
 	libs.AddToSwaggerAndRegister(
 		libs.PathItem{
 			Summary: "I am the home endpoint",
 			Get: &libs.Operation{
 				Summary:     "The Home Endpoint",
 				Description: "I AM DESCRIPTION",
-				Responses:   mapish,
+				Responses:   getResponses,
+			},
+			Post: &libs.Operation{
+				Summary:     "The POST Endpoint",
+				Description: "POST DESCRIPTION",
+				Responses:   postResponses,
+			},
+			Put: &libs.Operation{
+				Summary:     "The PUT Endpoint",
+				Description: "PUT DESCRIPTION",
+				Responses:   putResponses,
+			},
+			Patch: &libs.Operation{
+				Summary:     "The PATCH Endpoint",
+				Description: "PATCH DESCRIPTION",
+				Responses:   patchResponses,
+			},
+			Delete: &libs.Operation{
+				Summary:     "The DELETE Endpoint",
+				Description: "DELETE DESCRIPTION",
+				Responses:   deleteResponses,
 			},
 		}, config, "/", homeHandler)
 

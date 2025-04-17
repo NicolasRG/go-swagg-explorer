@@ -26,8 +26,25 @@ func AddToSwaggerAndRegister(pathItem PathItem, config *SwaggerServerConfig, pat
 
 	//TODO: traverse parameters and desearilze? or make them do it proberlyy????
 	if pathItem.Get != nil {
-		parseResponse("GET", pathItem.Get, config)
+		parseResponse("GET", pathItem.Get, config) //TODO: create consts for these strings
 	}
+
+	if pathItem.Post != nil {
+		parseResponse("POST", pathItem.Post, config)
+	}
+
+	if pathItem.Put != nil {
+		parseResponse("PUT", pathItem.Put, config)
+	}
+
+	if pathItem.Patch != nil {
+		parseResponse("PATCH", pathItem.Patch, config)
+	}
+
+	if pathItem.Delete != nil {
+		parseResponse("DELETE", pathItem.Delete, config)
+	}
+
 	//check for all request types in responses and requestBodies and regs
 
 	//convert this route config to path item
