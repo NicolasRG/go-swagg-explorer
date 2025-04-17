@@ -19,10 +19,24 @@
 				"description": "I AM DESCRIPTION",
 				"responses": {
 					"200": {
-						"$ref": "#/components/schemas/example.Response"
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.Response"
+								}
+							}
+						}
 					},
 					"400": {
-						"$ref": "#/components/schemas/example.ErrorResponse"
+						"description": "",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/example.ErrorResponse"
+								}
+							}
+						}
 					}
 				}
 			}

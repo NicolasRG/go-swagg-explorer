@@ -69,3 +69,17 @@ type XML struct {
 	Attribute bool   `json:"attribute,omitempty"`
 	Wrapped   bool   `json:"wrapped,omitempty"`
 }
+
+// this is purely used to declaret content with an attached ref
+type ContentRef struct {
+	Description string  `json:"description"`
+	Content     Content `json:"content,omitempty"`
+}
+
+type Content struct {
+	ApplicationJson ApplicationJson `json:"application/json,omitempty"`
+}
+
+type ApplicationJson struct {
+	RefSchema Schema `json:"schema,omitempty"`
+}

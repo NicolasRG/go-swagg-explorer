@@ -85,8 +85,26 @@ func parseResponse(method string, op *Operation, config *SwaggerServerConfig) {
 		}
 
 		//create block and ref to component def
-		op.Responses[statusCode] = Schema{
-			Ref: "#/components/schemas/" + cleanedUpActualType, //TODO: update this to use response and requst body sections
+		// op.Responses[statusCode] = Schema{
+		// 	Content: "",
+		// 	Ref: "#/components/schemas/" + cleanedUpActualType, //TODO: update this to use response and requst body sections
+		// }
+
+		// ApplicationJson:
+		// 	ApplicationJson{
+		// 		RefSchema: Schema{
+		// 			Ref: "#/components/schemas/" + cleanedUpActualType,
+		// 		},
+		// 	},
+
+		op.Responses[statusCode] = ContentRef{
+			Content: Content{
+				ApplicationJson: ApplicationJson{
+					RefSchema: Schema{
+						Ref: "#/components/schemas/" + cleanedUpActualType,
+					},
+				},
+			},
 		}
 	}
 
